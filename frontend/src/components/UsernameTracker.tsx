@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Input, Button, Alert, Spin, Typography, List } from 'antd';
-import { SearchOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { SearchOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../config/api';
 
@@ -141,6 +141,23 @@ const UsernameTracker: React.FC = () => {
                       avatar={<CheckCircleOutlined style={{ color: '#52c41a' }} />}
                       title={item.platform}
                       description={item.url}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Card>
+          )}
+
+          {result.not_found_profiles && result.not_found_profiles.length > 0 && (
+            <Card title={`Not Found Platforms (${result.not_found_profiles.length})`} style={{ marginBottom: 16 }}>
+              <List
+                dataSource={result.not_found_profiles}
+                renderItem={(item: any) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={<CloseCircleOutlined style={{ color: '#ff4d4f' }} />}
+                      title={<span style={{ color: '#8c8c8c' }}>{item.platform}</span>}
+                      description={<span style={{ color: '#bfbfbf' }}>Username not found on this platform</span>}
                     />
                   </List.Item>
                 )}
