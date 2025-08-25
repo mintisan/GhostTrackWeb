@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # 后端API服务
   backend:
