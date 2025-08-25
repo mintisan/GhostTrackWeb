@@ -25,6 +25,14 @@ cd GhostTrack
 # 构建并启动服务
 docker-compose up -d --build
 
+# 构图前端
+docker-compose build frontend
+docker-compose build --no-cache frontend
+# 构图后端
+docker-compose build backend
+docker-compose build --no-cache backend
+
+
 # 查看服务状态
 docker-compose ps
 
