@@ -48,7 +48,7 @@ if [ -d \".git\" ]; then
     git pull origin main
 else
     echo \"📥 克隆代码...\"
-    git clone https://github.com/HunxByts/GhostTrack.git .
+    git clone https://github.com/mintisan/GhostTrackWeb.git .
 fi
 
 # 构建并启动服务

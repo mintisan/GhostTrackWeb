@@ -1,0 +1,32 @@
+{
+  "name": "ghosttrack-web",
+  "version": "1.0.0",
+  "description": "GhostTrack Web - An OSINT tool for gathering information from IP addresses, phone numbers, and usernames",
+  "private": false,
+  "author": "GhostTrack Team",
+  "license": "MIT",
+  "keywords": [
+    "osint",
+    "ip-tracker",
+    "phone-tracker",
+    "username-tracker",
+    "security",
+    "intelligence",
+    "web-app"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mintisan/GhostTrackWeb.git"
+  },
+  "scripts": {
+    "build": "cd frontend && npm run build",
+    "dev": "cd frontend && npm run dev",
+    "docker:build": "./docker-build.sh",
+    "docker:push": "./docker-push.sh",
+    "docker:release": "./docker-release.sh"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

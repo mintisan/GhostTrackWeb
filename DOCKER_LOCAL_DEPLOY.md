@@ -13,7 +13,7 @@
 ### 一键部署
 ```bash
 # 克隆项目
-git clone https://github.com/HunxByts/GhostTrack.git
+git clone https://github.com/mintisan/GhostTrackWeb.git
 cd GhostTrack
 
 # 运行本地Docker部署脚本

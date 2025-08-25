@@ -34,7 +34,7 @@ GhostTrack Web 版本是原终端OSINT工具的现代化Web应用版本，提供
 ssh root@your-vps-ip
 
 # 2. 下载并运行部署脚本
-wget https://raw.githubusercontent.com/HunxByts/GhostTrack/main/deploy.sh
+wget https://raw.githubusercontent.com/mintisan/GhostTrackWeb/main/deploy.sh
 chmod +x deploy.sh
 ./deploy.sh
 ```
@@ -68,7 +68,7 @@ cd /opt
 sudo mkdir ghosttrack
 sudo chown $USER:$USER ghosttrack
 cd ghosttrack
-git clone https://github.com/HunxByts/GhostTrack.git .
+git clone https://github.com/mintisan/GhostTrackWeb.git .
 
 # 启动服务
 docker-compose up -d --build
@@ -214,7 +214,7 @@ tar -xzf ghosttrack-backup-YYYYMMDD.tar.gz -C /
 
 ## 📞 技术支持
 
-- **GitHub Issues**: [https://github.com/HunxByts/GhostTrack/issues](https://github.com/HunxByts/GhostTrack/issues)
+- **GitHub Issues**: [https://github.com/mintisan/GhostTrackWeb/issues](https://github.com/mintisan/GhostTrackWeb/issues)
 - **文档**: 项目README.md
 - **社区**: 项目讨论区
 

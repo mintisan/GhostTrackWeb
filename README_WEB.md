@@ -165,7 +165,7 @@ docker-compose down
 #### VPS自动化部署
 ```bash
 # 📥 下载部署脚本
-wget https://raw.githubusercontent.com/HunxByts/GhostTrack/main/deploy.sh
+wget https://raw.githubusercontent.com/mintisan/GhostTrackWeb/main/deploy.sh
 chmod +x deploy.sh
 
 # 🚀 执行一键部署
@@ -311,8 +311,8 @@ GET /api/my-ip
 ## 🤝 贡献与支持
 
 ### 📞 技术支持
-- **GitHub Issues**: [报告Bug和功能请求](https://github.com/HunxByts/GhostTrack/issues)
-- **讨论区**: [技术交流和问答](https://github.com/HunxByts/GhostTrack/discussions)
+- **GitHub Issues**: [报告Bug和功能请求](https://github.com/mintisan/GhostTrackWeb/issues)
+- **讨论区**: [技术交流和问答](https://github.com/mintisan/GhostTrackWeb/discussions)
 - **文档**: 查看 `DEPLOYMENT.md` 获取详细部署指南
 
 ### 🎯 贡献指南
