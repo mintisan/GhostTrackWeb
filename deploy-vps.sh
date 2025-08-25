@@ -17,6 +17,7 @@ NC='\033[0m' # No Color
 DEFAULT_FRONTEND_PORT=8192
 DEFAULT_BACKEND_PORT=8088
 DEFAULT_VERSION="latest"
+DEPLOY_MODE="dockerhub"  # 默认使用DockerHub镜像
 
 # 显示欢迎信息
 echo -e "${PURPLE}"
@@ -36,12 +37,14 @@ show_help() {
     echo "  -p, --port FRONTEND_PORT  设置前端端口 (默认: $DEFAULT_FRONTEND_PORT)"
     echo "  -b, --backend-port PORT   设置后端端口 (默认: $DEFAULT_BACKEND_PORT)"
     echo "  -v, --version VERSION     指定版本号 (默认: $DEFAULT_VERSION)"
+    echo "  -m, --mode MODE           部署模式: dockerhub|源码 (默认: dockerhub)"
     echo "  --no-install              跳过 Docker 安装检查"
     echo ""
     echo -e "${YELLOW}示例:${NC}"
-    echo "  $0                        # 使用默认配置部署"
+    echo "  $0                        # 使用默认配置部署(从 DockerHub 拉取)"
     echo "  $0 -p 80 -b 8000          # 自定义端口"
     echo "  $0 -v 1.0.0               # 部署特定版本"
+    echo "  $0 -m 源码                # 从源码构建部署"
     echo ""
 }
 
@@ -50,6 +53,7 @@ FRONTEND_PORT=$DEFAULT_FRONTEND_PORT
 BACKEND_PORT=$DEFAULT_BACKEND_PORT
 VERSION=$DEFAULT_VERSION
 SKIP_INSTALL=false
+DEPLOY_MODE="dockerhub"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -69,6 +73,10 @@ while [[ $# -gt 0 ]]; do
             VERSION="$2"
             shift 2
             ;;
+        -m|--mode)
+            DEPLOY_MODE="$2"
+            shift 2
+            ;;
         --no-install)
             SKIP_INSTALL=true
             shift
@@ -85,6 +93,7 @@ echo -e "${BLUE}📋 部署配置:${NC}"
 echo -e "   🌐 前端端口: ${YELLOW}$FRONTEND_PORT${NC}"
 echo -e "   🔧 后端端口: ${YELLOW}$BACKEND_PORT${NC}"
 echo -e "   📦 版本: ${YELLOW}$VERSION${NC}"
+echo -e "   🚀 部署模式: ${YELLOW}$DEPLOY_MODE${NC}"
 echo ""
 
 # 检测系统类型
@@ -159,8 +168,71 @@ create_deployment() {
     mkdir -p $deploy_dir
     cd $deploy_dir
     
-    # 创建 docker-compose.yml
-    cat > docker-compose.yml << EOF
+    # 根据部署模式创建不同的 docker-compose.yml
+    if [[ "$DEPLOY_MODE" == "源码" ]]; then
+        echo -e "${YELLOW}📦 克隆源代码...${NC}"
+        if [[ ! -d ".git" ]]; then
+            git clone https://github.com/mintisan/GhostTrackWeb.git .
+        fi
+        
+        # 创建带构建选项的 docker-compose.yml
+        cat > docker-compose.yml << EOF
+services:
+  # 后端API服务
+  backend:
+    # 优先使用DockerHub镜像，如果不存在则从本地构建
+    image: mintisan/ghosttrack-backend:${VERSION}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ghosttrack-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT}:8000"
+    environment:
+      - PYTHONPATH=/app
+    networks:
+      - ghosttrack-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # 前端Web服务
+  frontend:
+    # 优先使用DockerHub镜像，如果不存在则从本地构建
+    image: mintisan/ghosttrack-frontend:${VERSION}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ghosttrack-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      - backend
+    networks:
+      - ghosttrack-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  ghosttrack-network:
+    driver: bridge
+
+volumes:
+  app-data:
+    driver: local
+EOF
+    else
+        # 仅使用DockerHub镜像的配置
+        cat > docker-compose.yml << EOF
 services:
   # 后端API服务
   backend:
@@ -206,6 +278,7 @@ volumes:
   app-data:
     driver: local
 EOF
+    fi
 
     echo -e "${GREEN}✅ 部署配置创建完成${NC}"
 }

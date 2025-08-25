@@ -1,6 +1,8 @@
 services:
   # 后端API服务
   backend:
+    # 优先使用DockerHub镜像，如果不存在则从本地构建
+    image: mintisan/ghosttrack-backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -21,6 +23,8 @@ services:
 
   # 前端Web服务
   frontend:
+    # 优先使用DockerHub镜像，如果不存在则从本地构建
+    image: mintisan/ghosttrack-frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
