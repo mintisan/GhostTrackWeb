@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Layout, Menu, Typography, theme, ConfigProvider, Button } from 'antd';
 import { 
   GlobalOutlined, 
@@ -54,8 +55,28 @@ const items: MenuItem[] = [
 ];
 
 function App() {
-  const [selectedKey, setSelectedKey] = useState('home');
+  const location = useLocation();
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  
+  // 根据当前路由确定选中的菜单项
+  const getSelectedKey = () => {
+    switch (location.pathname) {
+      case '/ip-tracker':
+        return 'ip-tracker';
+      case '/phone-tracker':
+        return 'phone-tracker';
+      case '/username-tracker':
+        return 'username-tracker';
+      case '/my-ip':
+        return 'my-ip';
+      default:
+        return 'home';
+    }
+  };
+  
+  const selectedKey = getSelectedKey();
+  
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // 从localStorage获取用户偏好设置，如果没有则使用系统偏好
     const savedTheme = localStorage.getItem('theme');
@@ -123,18 +144,32 @@ function App() {
   } = theme.useToken();
 
   const renderContent = () => {
-    switch (selectedKey) {
-      case 'ip-tracker':
-        return <IPTracker />;
-      case 'phone-tracker':
-        return <PhoneTracker />;
-      case 'username-tracker':
-        return <UsernameTracker />;
-      case 'my-ip':
-        return <MyIP />;
-      default:
-        return <Home onNavigate={(key) => setSelectedKey(key)} />;
-    }
+    return (
+      <Routes>
+        <Route path="/" element={<Home onNavigate={(key) => {
+          switch (key) {
+            case 'ip-tracker':
+              navigate('/ip-tracker');
+              break;
+            case 'phone-tracker':
+              navigate('/phone-tracker');
+              break;
+            case 'username-tracker':
+              navigate('/username-tracker');
+              break;
+            case 'my-ip':
+              navigate('/my-ip');
+              break;
+            default:
+              navigate('/');
+          }
+        }} />} />
+        <Route path="/ip-tracker" element={<IPTracker />} />
+        <Route path="/phone-tracker" element={<PhoneTracker />} />
+        <Route path="/username-tracker" element={<UsernameTracker />} />
+        <Route path="/my-ip" element={<MyIP />} />
+      </Routes>
+    );
   };
 
   return (
@@ -184,7 +219,25 @@ function App() {
             mode="inline"
             selectedKeys={[selectedKey]}
             items={items}
-            onClick={({ key }) => setSelectedKey(key)}
+            onClick={({ key }) => {
+              switch (key) {
+                case 'home':
+                  navigate('/');
+                  break;
+                case 'ip-tracker':
+                  navigate('/ip-tracker');
+                  break;
+                case 'phone-tracker':
+                  navigate('/phone-tracker');
+                  break;
+                case 'username-tracker':
+                  navigate('/username-tracker');
+                  break;
+                case 'my-ip':
+                  navigate('/my-ip');
+                  break;
+              }
+            }}
             style={{ border: 'none', paddingBottom: '20px' }}
           />
         </Sider>
