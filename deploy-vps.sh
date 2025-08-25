@@ -285,11 +285,16 @@ EOF
 
 # 启动服务
 start_services() {
-    echo -e "${BLUE}🚀 拉取镜像并启动服务...${NC}"
+    echo -e "${BLUE}🚀 启动服务...${NC}"
     
-    # 拉取最新镜像
-    docker pull mintisan/ghosttrack-frontend:${VERSION}
-    docker pull mintisan/ghosttrack-backend:${VERSION}
+    if [[ "$DEPLOY_MODE" == "dockerhub" ]]; then
+        echo -e "${BLUE}📦 拉取DockerHub镜像...${NC}"
+        # 拉取最新镜像
+        docker pull mintisan/ghosttrack-frontend:${VERSION}
+        docker pull mintisan/ghosttrack-backend:${VERSION}
+    else
+        echo -e "${BLUE}🔨 从源码构建镜像...${NC}"
+    fi
     
     # 启动服务
     docker compose up -d

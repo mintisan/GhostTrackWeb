@@ -196,3 +196,171 @@ docker run -p 8080:80 mintisan/ghosttrack-frontend-standalone:latest
 # 停止服务
 docker-compose down
 ```
+
+---
+
+## 离线部署方案 📦
+
+当 VPS 无法访问 DockerHub 或网络环境受限时，可以使用离线部署方案。
+
+### 步骤1：创建离线包（在有网络的机器上）
+
+```bash
+# 在有网络的机器上运行
+cd GhostTrackWeb
+
+# 创建离线部署包
+./docker-export.sh
+
+# 压缩以便传输（可选）
+./docker-compress.sh
+```
+
+### 步骤2：上传到VPS
+
+```bash
+# 上传压缩包
+scp ghosttrack-offline-*.tar.gz user@your-vps:/path/to/deploy/
+
+# 或上传整个目录
+scp -r ghosttrack-offline-* user@your-vps:/path/to/deploy/
+```
+
+### 步骤3：在VPS上部署
+
+```bash
+# 解压（如果使用了压缩）
+tar -xzf ghosttrack-offline-*.tar.gz
+cd ghosttrack-offline-*
+
+# 或直接进入目录
+cd ghosttrack-offline-*
+
+# 一键部署
+./deploy-offline.sh
+```
+
+### 手动部署方式
+
+```bash
+# 1. 导入所有镜像
+./docker-import.sh
+
+# 2. 启动完整应用
+docker-compose up -d
+
+# 或仅启动前端
+docker-compose -f docker-compose-standalone.yml up -d
+```
+
+### 离线包特性
+
+- ✅ **无网络依赖**：完全不需访问 DockerHub
+- ✅ **多版本支持**：可指定任意版本导出
+- ✅ **压缩传输**：支持 tar.gz/tar.bz2/zip 多种格式
+- ✅ **自动部署**：包含交互式部署脚本
+- ✅ **完整配置**：包含所有必要的配置文件
+
+### 离线工具列表
+
+| 脚本 | 功能 | 使用时机 |
+|-------|------|----------|
+| `docker-export.sh` | 创建离线包 | 有网络机器上 |
+| `docker-compress.sh` | 压缩离线包 | 有网络机器上 |
+| `docker-import.sh` | 批量导入镜像 | VPS上 |
+| `deploy-offline.sh` | 自动部署 | VPS上 |
+
+---
+
+## 架构兼容性 💻
+
+### 问题说明
+
+M系列 macOS（ARM64）构建的 Docker 镜像默认不能在 x86_64 架构的 VPS 上运行。
+
+### 架构检测
+
+```bash
+# 检查当前镜像架构
+docker image inspect mintisan/ghosttrack-frontend:latest | grep Architecture
+
+# 检查服务器架构
+uname -m
+# x86_64 = Intel/AMD
+# aarch64 = ARM64
+```
+
+### 解决方案
+
+#### 方案1：多架构构建（推荐）
+
+```bash
+# 创建支持 ARM64 和 x86_64 的镜像
+./docker-build-multiarch.sh
+
+# 选择: 2) 构建并推送到 DockerHub
+```
+
+**优势**：
+- ✅ 一个镜像支持多种架构
+- ✅ Docker 自动选择匹配架构
+- ✅ 最佳用户体验
+
+#### 方案2：分架构离线包
+
+```bash
+# 创建 x86_64 架构离线包
+./docker-export-arch.sh amd64
+
+# 创建 ARM64 架构离线包
+./docker-export-arch.sh arm64
+```
+
+**优势**：
+- ✅ 针对特定架构优化
+- ✅ 离线部署兼容性好
+- ✅ 包大小相对较小
+
+#### 方案3：交叉编译
+
+```bash
+# 在M系列Mac上构建x86_64镜像
+docker buildx build --platform linux/amd64 \
+  -t mintisan/ghosttrack-frontend:amd64 \
+  --push ./frontend
+```
+
+### 架构对照表
+
+| 架构名称 | Docker平台 | 常见设备 |
+|---------|-----------|----------|
+| x86_64 | linux/amd64 | 大部分VPS、Intel Mac、PC |
+| ARM64 | linux/arm64 | M系列Mac、树莓派Pi 4+ |
+
+### 常见错误
+
+```
+exec format error
+```
+**解决**：使用正确架构的镜像
+
+```
+no matching manifest for linux/amd64
+```
+**解决**：需要多架构构建
+
+### 快速修复
+
+如果你的VPS是x86_64架构：
+
+```bash
+# 1. 构建多架构镜像
+./docker-build-multiarch.sh
+
+# 2. 在VPS上重新部署
+docker-compose down
+docker-compose pull
+docker-compose up -d
+```
+
+详细指南请参考：[ARCHITECTURE_COMPATIBILITY.md](./ARCHITECTURE_COMPATIBILITY.md)

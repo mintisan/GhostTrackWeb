@@ -1,12 +1,15 @@
 // API配置
 const isDevelopment = import.meta.env.DEV;
-const isDocker = window.location.hostname === 'localhost' && window.location.port === '8192';
+
+// 检测是否为Docker环境（前端端口8192）
+const isDockerEnvironment = window.location.port === '8192';
 
 // 根据环境确定API基础URL
 export const getApiBaseUrl = (): string => {
-  if (isDocker) {
-    // Docker环境下，后端运行在8088端口
-    return 'http://localhost:8088';
+  if (isDockerEnvironment) {
+    // Docker环境下，后端运行在8088端口，使用当前主机名
+    const hostname = window.location.hostname;
+    return `http://${hostname}:8088`;
   } else if (isDevelopment) {
     // 本地开发环境
     return 'http://localhost:8000';
