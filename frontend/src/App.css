@@ -1,0 +1,229 @@
+#root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+
+.ant-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.ant-descriptions-item-label {
+  font-weight: 600;
+}
+
+.ghost-track-logo {
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(45deg, #1890ff, #722ed1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.feature-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Home页面功能卡片样式 */
+.home-feature-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.home-feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #1890ff;
+}
+
+.home-feature-card:active {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.status-tag {
+  font-weight: 500;
+}
+
+.search-input {
+  border-radius: 6px;
+}
+
+.search-button {
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .feature-card {
+    width: 100% !important;
+    margin: 8px 0 !important;
+  }
+}
+
+/* 固定侧边栏布局样式 */
+.fixed-layout {
+  overflow: hidden;
+  min-height: 100vh !important;
+  height: 100% !important;
+}
+
+.fixed-sider {
+  position: fixed !important;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.main-content {
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+/* 自定义滚动条样式 */
+.main-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 移动端响应式 */
+@media (max-width: 992px) {
+  .fixed-sider {
+    position: relative !important;
+    height: auto !important;
+  }
+  
+  .main-content {
+    height: auto !important;
+    overflow-y: visible !important;
+  }
+}
+
+/* 主题切换按钮样式 */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.theme-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* 暗色主题下的悬停效果 */
+[data-theme='dark'] .theme-toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* 暗色主题优化 */
+[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+[data-theme='dark'] .main-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+[data-theme='dark'] .main-content::-webkit-scrollbar-track {
+  background: #2f2f2f;
+  border-radius: 3px;
+}
+
+[data-theme='dark'] .main-content::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 3px;
+}
+
+[data-theme='dark'] .main-content::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* 暗色主题下的功能卡片样式 */
+[data-theme='dark'] .home-feature-card:hover {
+  border-color: #177ddc;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+}
+
+/* 平滑过渡动画 */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* 强制主题背景覆盖 - 最高优先级 */
+html[data-theme='dark'],
+[data-theme='dark'] html,
+[data-theme='dark'] body,
+[data-theme='dark'] #root,
+[data-theme='dark'] .ant-layout,
+[data-theme='dark'] .fixed-layout {
+  background-color: #141414 !important;
+  background: #141414 !important;
+}
+
+html[data-theme='light'],
+[data-theme='light'] html,
+[data-theme='light'] body,
+[data-theme='light'] #root,
+[data-theme='light'] .ant-layout,
+[data-theme='light'] .fixed-layout {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+/* 确保所有可能的背景元素都被覆盖 */
+[data-theme='dark'] .ant-layout-content {
+  background-color: #141414 !important;
+}
+
+[data-theme='light'] .ant-layout-content {
+  background-color: #ffffff !important;
+}
+
+/* 防止任何默认样式覆盖 */
+[data-theme='dark'] * {
+  --ant-color-bg-layout: #141414;
+}
+
+[data-theme='light'] * {
+  --ant-color-bg-layout: #ffffff;
+}

@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # 后端API服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ghosttrack-backend
+    restart: unless-stopped
+    ports:
+      - \"8000:8000\"
+    environment:
+      - PYTHONPATH=/app
+    networks:
+      - ghosttrack-network
+    healthcheck:
+      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost:8000/\"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # 前端Web服务
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ghosttrack-frontend
+    restart: unless-stopped
+    ports:
+      - \"80:80\"
+    depends_on:
+      - backend
+    networks:
+      - ghosttrack-network
+    healthcheck:
+      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost/\"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  ghosttrack-network:
+    driver: bridge
+
+volumes:
+  # 如果需要持久化数据，可以添加卷
+  app-data:
+    driver: local

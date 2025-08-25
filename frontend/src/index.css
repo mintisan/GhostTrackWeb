@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  height: 100%;
+  width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+}
+
+/* 确保所有层级都应用主题背景 */
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* 主题相关样式 - 最高优先级 */
+html[data-theme='dark'],
+[data-theme='dark'],
+[data-theme='dark'] html,
+[data-theme='dark'] body,
+[data-theme='dark'] #root {
+  background-color: #141414 !important;
+  background: #141414 !important;
+}
+
+html[data-theme='light'],
+[data-theme='light'],
+[data-theme='light'] html,
+[data-theme='light'] body,
+[data-theme='light'] #root {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+/* 确保Layout组件继承主题背景 */
+[data-theme='dark'] .ant-layout,
+[data-theme='dark'] .ant-layout * {
+  background-color: #141414 !important;
+}
+
+[data-theme='light'] .ant-layout,
+[data-theme='light'] .ant-layout * {
+  background-color: #ffffff !important;
+}
