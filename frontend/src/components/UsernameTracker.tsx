@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Card, Input, Button, Alert, Spin, Typography, List } from 'antd';
-import { UserOutlined, SearchOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { SearchOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const { Title } = Typography;
 
@@ -22,7 +23,7 @@ const UsernameTracker: React.FC = () => {
     setResult(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/track-username', {
+      const response = await axios.post(API_ENDPOINTS.TRACK_USERNAME, {
         username: username.trim()
       });
       setResult(response.data);

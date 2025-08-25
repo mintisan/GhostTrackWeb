@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Alert, Spin, Typography, Descriptions, Row, Col } from 'antd';
-import { WifiOutlined, ReloadOutlined, CopyOutlined, GlobalOutlined } from '@ant-design/icons';
+import { ReloadOutlined, CopyOutlined, GlobalOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const { Title } = Typography;
 
@@ -18,7 +19,7 @@ const MyIP: React.FC = () => {
     setIpError(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/track-ip', {
+      const response = await axios.post(API_ENDPOINTS.TRACK_IP, {
         ip_address: ipAddress
       });
       setIpDetails(response.data);
@@ -35,7 +36,7 @@ const MyIP: React.FC = () => {
     setIpDetails(null);
 
     try {
-      const response = await axios.get('http://localhost:8000/api/my-ip');
+      const response = await axios.get(API_ENDPOINTS.MY_IP);
       setResult(response.data);
       // 自动获取IP详细信息
       if (response.data.ip) {

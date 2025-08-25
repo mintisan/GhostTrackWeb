@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Card, Input, Button, Alert, Spin } from 'antd';
-import { PhoneOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const PhoneTracker: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -20,7 +21,7 @@ const PhoneTracker: React.FC = () => {
     setResult(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/track-phone', {
+      const response = await axios.post(API_ENDPOINTS.TRACK_PHONE, {
         phone_number: phoneNumber.trim()
       });
       setResult(response.data);

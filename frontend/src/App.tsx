@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Typography, theme, ConfigProvider, Button, Space } from 'antd';
+import { Layout, Menu, Typography, theme, ConfigProvider, Button } from 'antd';
 import { 
   GlobalOutlined, 
   PhoneOutlined, 
@@ -17,7 +17,7 @@ import MyIP from './components/MyIP';
 import './App.css';
 
 const { Header, Content, Sider } = Layout;
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 type MenuItem = {
   key: string;

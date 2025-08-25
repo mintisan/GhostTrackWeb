@@ -9,13 +9,13 @@ services:
     container_name: ghosttrack-backend
     restart: unless-stopped
     ports:
-      - \"8000:8000\"
+      - "8088:8000"
     environment:
       - PYTHONPATH=/app
     networks:
       - ghosttrack-network
     healthcheck:
-      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost:8000/\"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -29,13 +29,13 @@ services:
     container_name: ghosttrack-frontend
     restart: unless-stopped
     ports:
-      - \"80:80\"
+      - "8192:80"
     depends_on:
       - backend
     networks:
       - ghosttrack-network
     healthcheck:
-      test: [\"CMD\", \"curl\", \"-f\", \"http://localhost/\"]
+      test: ["CMD", "curl", "-f", "http://localhost/"]
       interval: 30s
       timeout: 10s
       retries: 3

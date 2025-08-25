@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Card, Input, Button, Alert, Spin } from 'antd';
-import { GlobalOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const IPTracker: React.FC = () => {
   const [ipAddress, setIpAddress] = useState('');
@@ -20,7 +21,7 @@ const IPTracker: React.FC = () => {
     setResult(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/track-ip', {
+      const response = await axios.post(API_ENDPOINTS.TRACK_IP, {
         ip_address: ipAddress.trim()
       });
       setResult(response.data);
