@@ -163,11 +163,17 @@ const MyIP: React.FC = () => {
                 {ipDetails.maps_url && (
                   <div style={{ textAlign: 'center', marginTop: 16 }}>
                     <Button 
-                      type="primary" 
+                      type="default"
+                      size="large"
                       href={ipDetails.maps_url} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       icon={<GlobalOutlined />}
+                      style={{ 
+                        color: '#1890ff',
+                        borderColor: '#1890ff',
+                        fontWeight: 500
+                      }}
                     >
                       View on Google Maps
                     </Button>

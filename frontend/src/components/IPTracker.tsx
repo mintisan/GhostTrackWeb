@@ -44,10 +44,28 @@ const IPTracker: React.FC = () => {
             style={{ flex: 1 }}
           />
           <Button 
-            type="primary" 
+            type="default"
             icon={<SearchOutlined />}
             onClick={handleTrack}
             loading={loading}
+            style={{
+              backgroundColor: '#ffffff !important',
+              borderColor: '#1890ff !important',
+              color: '#000000 !important',
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#f0f8ff';
+              e.currentTarget.style.borderColor = '#40a9ff';
+              e.currentTarget.style.color = '#000000';
+              e.currentTarget.style.setProperty('color', '#000000', 'important');
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.borderColor = '#1890ff';
+              e.currentTarget.style.color = '#000000';
+              e.currentTarget.style.setProperty('color', '#000000', 'important');
+            }}
           >
             Track
           </Button>
@@ -83,7 +101,23 @@ const IPTracker: React.FC = () => {
             {result.maps_url && (
               <p>
                 <strong>Map Location:</strong> 
-                <a href={result.maps_url} target="_blank" rel="noopener noreferrer">
+                <a 
+                  href={result.maps_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{
+                    color: '#1890ff',
+                    textDecoration: 'none',
+                    fontWeight: 500,
+                    marginLeft: '8px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.textDecoration = 'underline';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.textDecoration = 'none';
+                  }}
+                >
                   View on Google Maps
                 </a>
               </p>

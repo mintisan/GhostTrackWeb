@@ -53,10 +53,26 @@ const UsernameTracker: React.FC = () => {
             style={{ flex: 1 }}
           />
           <Button 
-            type="primary" 
+            type="default"
             icon={<SearchOutlined />}
             onClick={handleTrack}
             loading={loading}
+            style={{
+              backgroundColor: '#ffffff',
+              borderColor: '#1890ff',
+              color: '#000000',
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#f0f8ff';
+              e.currentTarget.style.borderColor = '#40a9ff';
+              e.currentTarget.style.color = '#000000';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.borderColor = '#1890ff';
+              e.currentTarget.style.color = '#000000';
+            }}
           >
             Search
           </Button>
@@ -100,7 +116,23 @@ const UsernameTracker: React.FC = () => {
                 renderItem={(item: any) => (
                   <List.Item
                     actions={[
-                      <a href={item.url} target="_blank" rel="noopener noreferrer" key="visit">
+                      <a 
+                        href={item.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        key="visit"
+                        style={{
+                          color: '#1890ff',
+                          fontWeight: 500,
+                          textDecoration: 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.textDecoration = 'underline';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.textDecoration = 'none';
+                        }}
+                      >
                         Visit
                       </a>
                     ]}

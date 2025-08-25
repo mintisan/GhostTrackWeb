@@ -52,10 +52,26 @@ const PhoneTracker: React.FC = () => {
             style={{ flex: 1 }}
           />
           <Button 
-            type="primary" 
+            type="default"
             icon={<SearchOutlined />}
             onClick={handleTrack}
             loading={loading}
+            style={{
+              backgroundColor: '#ffffff',
+              borderColor: '#1890ff',
+              color: '#000000',
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#f0f8ff';
+              e.currentTarget.style.borderColor = '#40a9ff';
+              e.currentTarget.style.color = '#000000';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.borderColor = '#1890ff';
+              e.currentTarget.style.color = '#000000';
+            }}
           >
             Track
           </Button>
